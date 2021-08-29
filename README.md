@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/yandex-money/yandex-money-sdk-nodejs.svg?branch=master)](https://travis-ci.org/yandex-money/yandex-money-sdk-nodejs)
-[![Coverage Status](https://coveralls.io/repos/raymank26/yandex-money-sdk-nodejs/badge.png?branch=master)](https://coveralls.io/r/raymank26/yandex-money-sdk-nodejs?branch=master)
+[![Coverage Status](https://coveralls.io/repos/yandex-money/yandex-money-sdk-nodejs/badge.png?branch=master)](https://coveralls.io/r/yandex-money/yandex-money-sdk-nodejs?branch=master)
 
 # NodeJS Yandex.Money API SDK
 
@@ -27,7 +27,7 @@ Note: `client_id`, `redirect_uri`, `client_secret` are constants that you get,
 when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Money API.
 
     ```javascript
-    var yandexMoney = require("yandex-money");
+    var yandexMoney = require("yandex-money-sdk");
     // scope is array(e.g. scope = ['account-info', 'operation-history'])
     url = yandexMoney.Wallet.buildObtainTokenUrl(clientId, redirectURI, scope);
     // redirect user to url
@@ -53,7 +53,7 @@ when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Mon
 4. Now you can use Yandex.Money API.
 
     ```javascript
-    var api = yandexMoney.Wallet(access_token);
+    var api = new yandexMoney.Wallet(access_token);
 
     // get account info
     api.accountInfo(function infoComplete(err, data) {
@@ -67,7 +67,7 @@ when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Mon
     });
 
     // fetch last 3 records of operation history
-    api.operationHistory(function operationHisComplete(err, data) {
+    api.operationHistory({ records: 3 }, function operationHisComplete(err, data) {
         if(err) {
             // process error
         }
@@ -130,7 +130,7 @@ result in DB).
 2. Make request payment
 
     ```javascript 
-    var external_payment = yandexMoney.ExternalPayment(instanceId)
+    var externalPayment = new yandexMoney.ExternalPayment(instanceId)
 
     var options = {
         // pattern_id, etc..
@@ -147,7 +147,7 @@ result in DB).
 3. Process the request with process-payment. 
 
     ```javascript 
-    external_payment.process({"request_id": requestId}, function (err, data) {
+    externalPayment.process({"request_id": requestId}, function (err, data) {
         if(err) {
             // process error
         }
